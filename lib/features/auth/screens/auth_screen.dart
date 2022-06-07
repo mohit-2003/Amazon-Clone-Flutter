@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_text_fields.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/auth/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { login, signup }
@@ -15,11 +16,12 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   Auth auth = Auth.signup;
-  final GlobalKey _signUpFormKey = new GlobalKey<FormState>();
-  final GlobalKey _signInFormKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _signUpFormKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _signInFormKey = new GlobalKey<FormState>();
   final TextEditingController _emailController = new TextEditingController();
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
+  final AuthServices authServices = new AuthServices();
 
   @override
   void dispose() {
@@ -94,7 +96,15 @@ class _AuthScreenState extends State<AuthScreen> {
                         new CustomButton(
                             text: "Sign Up",
                             color: GlobalVariables.secondaryColor,
-                            onPressed: () {})
+                            onPressed: () {
+                              if (_signUpFormKey.currentState!.validate()) {
+                                authServices.signupUser(
+                                    name: _nameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    context: context);
+                              }
+                            })
                       ],
                     )),
               ),
@@ -141,7 +151,14 @@ class _AuthScreenState extends State<AuthScreen> {
                         new CustomButton(
                             text: "Sign In",
                             color: GlobalVariables.secondaryColor,
-                            onPressed: () {})
+                            onPressed: () {
+                              if (_signInFormKey.currentState!.validate()) {
+                                authServices.signinUser(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    context: context);
+                              }
+                            })
                       ],
                     )),
               ),

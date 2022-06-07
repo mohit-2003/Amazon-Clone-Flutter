@@ -1,15 +1,32 @@
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/auth/services/auth_services.dart';
+import 'package:amazon_clone/provider/user_provider.dart';
 import 'package:amazon_clone/routes.dart';
 import 'package:amazon_clone/screens/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(new MultiProvider(providers: [
+    new ChangeNotifierProvider(create: (context) => new UserProvider())
+  ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AuthServices authServices = new AuthServices();
+  @override
+  void initState() {
+    super.initState();
+    authServices.getUserData(context: context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +40,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
           appBarTheme: new AppBarTheme(
               elevation: 0, iconTheme: new IconThemeData(color: Colors.black))),
-      home: new AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isEmpty
+          ? new AuthScreen()
+          : new MainScreen(),
     );
   }
 }

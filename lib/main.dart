@@ -7,6 +7,8 @@ import 'package:amazon_clone/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'features/admin/screens/admin_screen.dart';
+
 void main() {
   runApp(new MultiProvider(providers: [
     new ChangeNotifierProvider(create: (context) => new UserProvider())
@@ -42,7 +44,9 @@ class _MyAppState extends State<MyApp> {
               elevation: 0, iconTheme: new IconThemeData(color: Colors.black))),
       home: Provider.of<UserProvider>(context).user.token.isEmpty
           ? new AuthScreen()
-          : new MainScreen(),
+          : Provider.of<UserProvider>(context).user.type == "user"
+              ? new MainScreen()
+              : new AdminScreen(),
     );
   }
 }

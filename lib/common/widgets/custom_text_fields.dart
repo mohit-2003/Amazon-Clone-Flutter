@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
-  const CustomTextField({Key? key, required this.controller, this.hintText})
+  final int maxLines;
+  const CustomTextField(
+      {Key? key, required this.controller, this.hintText, this.maxLines = 1})
       : super(key: key);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/account/screens/account_screen.dart';
 import 'package:amazon_clone/screens/home_screen.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   int _screen = 0;
   final List<Widget> _screenList = [
     new HomeScreen(),
-    new Scaffold(body: new Center(child: new Text("First"))),
+    new AccountScreen(),
     new Scaffold(body: new Center(child: new Text("Second")))
   ];
 
